@@ -1,9 +1,11 @@
-import type { AxiosInstance } from 'axios';
-import axios from 'axios'
+import axios, { AxiosInstance } from 'axios'
 import retryAxios from 'axios-retry'
 import { inspect } from 'util'
+
 import { Injectable, Logger } from '@nestjs/common'
+
 import { AXIOS_CONFIG } from '~/app.config'
+
 import { version } from '../../../package.json'
 
 declare module 'axios' {
@@ -40,7 +42,6 @@ export class HttpService {
   }
 
   private bindDebugVerboseInterceptor($http: AxiosInstance) {
-
     return $http
   }
 
@@ -52,12 +53,7 @@ export class HttpService {
     return inspect(data, { colors: true })
   }
 
-
-
   public get axiosRef() {
     return this.http
   }
-
-
-
 }

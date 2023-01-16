@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 /**
  * 对响应体进行转换结构
  * @author Innei
@@ -6,14 +7,13 @@ import { isArrayLike } from 'lodash'
 import type { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-import type {
+import {
   CallHandler,
   ExecutionContext,
-  NestInterceptor} from '@nestjs/common';
-import {
-  Injectable
+  Injectable,
+  NestInterceptor,
 } from '@nestjs/common'
-import type { Reflector } from '@nestjs/core'
+import { Reflector } from '@nestjs/core'
 
 import * as SYSTEM from '~/constants/system.constant'
 

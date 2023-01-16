@@ -1,6 +1,7 @@
 import { compareSync, hashSync } from 'bcrypt'
-import type { Model } from 'mongoose'
+import { Model } from 'mongoose'
 import { nanoid } from 'nanoid'
+
 import {
   BadRequestException,
   ForbiddenException,
@@ -11,11 +12,10 @@ import { InjectModel } from '@nestjs/mongoose'
 import { UserModel } from '~/modules/user/user.model'
 import { sleep } from '~/utils/tool.util'
 
-import type { UserDto, UserDetailDto } from './user.dto'
+import { UserDetailDto, UserDto } from './user.dto'
 
 @Injectable()
 export class UserService {
-
   constructor(
     @InjectModel(UserModel.name)
     private readonly userModel: Model<UserModel>,
@@ -37,7 +37,9 @@ export class UserService {
   }
 
   async login(username: string, password: string) {
-    const user = await this.userModel.findOne({ username }).select(['+password','+authCode'])
+    const user = await this.userModel
+      .findOne({ username })
+      .select(['+password', '+authCode'])
     if (!user) {
       await sleep(1000)
       throw new ForbiddenException('用户名不正确')
@@ -50,7 +52,9 @@ export class UserService {
   }
 
   async getUserInfo() {
-    const userInfo = await this.userModel.findOne().select(['-password','-authCode','-created'])  
+    const userInfo = await this.userModel
+      .findOne()
+      .select(['-password', '-authCode', '-created'])
     if (!userInfo) {
       throw new BadRequestException('没有完成初始化!')
     }
@@ -61,8 +65,8 @@ export class UserService {
     return !!(await this.userModel.count())
   }
 
-    patchUserData(data: UserDetailDto, user: UserModel) {
-      console.log(data);
-    return this.userModel.updateOne({_id: user._id}, data)
+  patchUserData(data: UserDetailDto, user: UserModel) {
+    console.log(data)
+    return this.userModel.updateOne({ _id: user._id }, data)
   }
 }

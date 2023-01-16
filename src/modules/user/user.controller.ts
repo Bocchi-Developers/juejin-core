@@ -1,13 +1,14 @@
-import { Body, Controller, Get,  HttpCode,  Patch,  Post } from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, Patch, Post } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
-import { ApiName } from '~/common/decorator/openapi.decorator'
-import type { UserDto, UserDetailDto } from './user.dto'
-import type { UserService } from './user.service'
-import type { AuthService } from '../auth/auth.service';
+
 import { Auth } from '~/common/decorator/auth.decorator'
 import { CurrentUser } from '~/common/decorator/current-user.decorator'
-import type { UserModel } from './user.model'
+import { ApiName } from '~/common/decorator/openapi.decorator'
 
+import { AuthService } from '../auth/auth.service'
+import { UserDetailDto, UserDto } from './user.dto'
+import { UserModel } from './user.model'
+import { UserService } from './user.service'
 
 @Controller('user')
 @ApiName
@@ -16,12 +17,12 @@ export class UserController {
     private readonly userService: UserService,
     private readonly authService: AuthService,
   ) {}
-  
+
   @Post('register')
   @ApiOperation({ summary: '注册' })
   async register(@Body() userDto: UserDto) {
     await this.userService.createUser(userDto)
-    return 'ok'  
+    return 'ok'
   }
 
   @Get()
@@ -49,9 +50,8 @@ export class UserController {
     @Body() body: UserDetailDto,
     @CurrentUser() user: UserModel,
   ) {
-    return await this.userService.patchUserData(body,user)
+    return await this.userService.patchUserData(body, user)
   }
-
 
   @Get('check_logged')
   @ApiOperation({ summary: '判断当前 Token 是否有效 ' })

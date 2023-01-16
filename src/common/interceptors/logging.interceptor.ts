@@ -5,16 +5,15 @@
  * @author Surmon <https://github.com/surmon-china>
  * @author Innei <https://github.com/Innei>
  */
-import type { Observable } from 'rxjs'
+import { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
 
-import type {
+import {
   CallHandler,
   ExecutionContext,
-  NestInterceptor} from '@nestjs/common';
-import {
   Injectable,
   Logger,
+  NestInterceptor,
   SetMetadata,
 } from '@nestjs/common'
 

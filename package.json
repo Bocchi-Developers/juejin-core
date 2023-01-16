@@ -1,5 +1,6 @@
 {
   "name": "@bocchi/juejin-core",
+  "author": "Bocchi-Developers <https://innei.ren>",
   "private": false,
   "version": "0.0.1",
   "repository": {
@@ -49,7 +50,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "lint:fix": "eslint --fix --ext .ts,.tsx,.js,.jsx --quiet ./"
+    "release": "vv"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -67,7 +68,7 @@
     "lodash": "^4.17.21",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.3",
-    "nanoid": "^4.0.0",
+    "nanoid": "3.3.4",
     "node-machine-id": "^1.1.12",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
@@ -78,6 +79,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
+    "@innei/bump-version": "^1.5.6",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
