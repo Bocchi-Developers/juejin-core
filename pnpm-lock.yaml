@@ -17,7 +17,7 @@ specifiers:
   '@suemor/eslint-config-ts': ^1.1.0
   '@suemor/prettier': ^1.1.0
   '@types/express': ^4.17.13
-  '@types/jest': 29.2.4
+  '@types/jest': 29.2.5
   '@types/node': 18.11.18
   '@types/supertest': ^2.0.11
   '@vercel/ncc': ^0.36.0
@@ -85,7 +85,7 @@ devDependencies:
   '@suemor/eslint-config-ts': 1.1.0_typescript@4.9.4
   '@suemor/prettier': 1.1.0
   '@types/express': 4.17.15
-  '@types/jest': 29.2.4
+  '@types/jest': 29.2.5
   '@types/node': 18.11.18
   '@types/supertest': 2.0.12
   '@vercel/ncc': 0.36.0
@@ -2333,8 +2333,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest/29.2.4:
-    resolution: {integrity: sha512-PipFB04k2qTRPePduVLTRiPzQfvMeLwUN3Z21hsAKaB/W9IIzgB2pizCL466ftJlcyZqnHoC9ZHpxLGl3fS86A==}
+  /@types/jest/29.2.5:
+    resolution: {integrity: sha512-H2cSxkKgVmqNHXP7TC2L/WUorrZu8ZigyRywfVzv6EyBlxj39n4C00hjXYQWsbwqgElaj/CiAeSRmk5GoaKTgw==}
     dependencies:
       expect: 29.3.1
       pretty-format: 29.3.1
