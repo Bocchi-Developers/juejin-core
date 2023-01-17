@@ -11,7 +11,7 @@ export class AppController {
     return {
       name: PKG.name,
       author: PKG.author,
-      version: `${PKG.version}`,
+      version: PKG.version,
       homepage: PKG.homepage,
       issues: PKG.issues,
     }

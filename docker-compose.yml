@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: juejin-core
+    image: suemor/juejin-core:latest
+    command: node index.js --db_host=juejin_mongo --color
+    environment:
+      - TZ=Asia/Shanghai
+      - NODE_ENV=production
+    volumes:
+      - ./data/juejin-core:/root/.juejin-core
+    ports:
+      - '7498:7498'
+    depends_on:
+      - juejin_mongo
+    links:
+      - juejin_mongo
+    networks:
+      - app-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://127.0.0.1:4913/api/v1/ping']
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+  juejin_mongo:
+    container_name: juejin_mongo
+    image: mongo
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - '7495:27017'
+    networks:
+      - app-network
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge

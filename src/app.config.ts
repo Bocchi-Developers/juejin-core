@@ -1,7 +1,7 @@
 import { argv } from 'zx-cjs'
 
 export const PORT = 7498
-export const API_VERSION = 2
+export const API_VERSION = 1
 
 export const CROSS_DOMAIN = {
   allowedOrigins: ['suemor.com', 'localhost', '127.0.0.1', '.*dev'],
