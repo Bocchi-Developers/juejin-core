@@ -1,15 +1,20 @@
+import cluster from 'cluster'
+
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
+
 import { API_VERSION, CROSS_DOMAIN, PORT } from './app.config'
 import { AppModule } from './app.module'
+import { SpiderGuard } from './common/guard/spider.guard'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
-import { isDev } from './global/env.global'
+import { isDev, isMainProcess } from './global/env.global'
+import { MyLogger } from './processors/logger/logger.service'
 
 declare const module: any
 
 export async function bootstrap() {
+  process.title = `Juejin Core (${cluster.isPrimary ? 'master' : 'worker'})`
   const app = await NestFactory.create(AppModule)
-  const logger = new Logger()
   const hosts = CROSS_DOMAIN.allowedOrigins.map((host) => new RegExp(host, 'i'))
   app.enableCors(
     hosts
@@ -39,12 +44,12 @@ export async function bootstrap() {
       stopAtFirstError: true,
     }),
   )
-
+  app.useGlobalGuards(new SpiderGuard())
   if (isDev) {
     const { DocumentBuilder, SwaggerModule } = await import('@nestjs/swagger')
     const options = new DocumentBuilder()
       .setTitle('API')
-      .setDescription('LostAndFound API')
+      .setDescription('JueJin API')
       .setVersion(`${API_VERSION}`)
       .addSecurity('bearer', {
         type: 'http',
@@ -57,10 +62,21 @@ export async function bootstrap() {
   }
 
   await app.listen(+PORT, '0.0.0.0', async () => {
-    if (isDev) {
-      logger.debug(`Server listen on:: http://localhost:${PORT}`)
-      logger.debug(`swagger文档: http://localhost:${PORT}/api-docs`)
+    app.useLogger(app.get(MyLogger))
+    consola.info('ENV:', process.env.NODE_ENV)
+    const url = await app.getUrl()
+    const pid = process.pid
+    const env = cluster.isPrimary
+    const prefix = env ? 'P' : 'W'
+    if (!isMainProcess) {
+      return
     }
+    if (isDev) {
+      consola.debug(`[${prefix + pid}] OpenApi: ${url}/api-docs`)
+    }
+    consola.success(`[${prefix + pid}] Server listen on: ${url}`)
+
+    Logger.log(`Server is up. ${chalk.yellow(`+${performance.now() | 0}ms`)}`)
   })
 
   if (module.hot) {

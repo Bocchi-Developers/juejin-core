@@ -7,11 +7,11 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { UserModule } from './modules/user/user.module'
 import { DatabaseModule } from './processors/databse/database.module'
 import { HelperModule } from './processors/helper/helper.module'
+import { LoggerModule } from './processors/logger/logger.module'
 
 @Module({
-  imports: [DatabaseModule, HelperModule, UserModule],
+  imports: [LoggerModule, DatabaseModule, HelperModule, UserModule],
   controllers: [AppController],
-
   providers: [
     {
       provide: APP_FILTER,

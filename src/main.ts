@@ -1,9 +1,10 @@
-
+import { register } from './global/index.global'
 
 async function main() {
-  const [{bootstrap}] = await Promise.all([
+  register()
+  const [{ bootstrap }] = await Promise.all([
     import('./bootstrap'),
-    import('./app.config')
+    import('./app.config'),
   ])
 
   bootstrap()
