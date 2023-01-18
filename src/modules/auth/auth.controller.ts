@@ -18,6 +18,6 @@ export class AuthController {
   @ApiOperation({ summary: '判断当前 Token 是否有效 ' })
   @Auth()
   checkLogged() {
-    return 'ok'
+    return
   }
 }
