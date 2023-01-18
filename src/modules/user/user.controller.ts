@@ -22,7 +22,7 @@ export class UserController {
   @ApiOperation({ summary: '注册' })
   async register(@Body() userDto: UserDto) {
     await this.userService.createUser(userDto)
-    return 'ok'
+    return
   }
 
   @Get()
@@ -57,6 +57,6 @@ export class UserController {
   @ApiOperation({ summary: '判断当前 Token 是否有效 ' })
   @Auth()
   checkLogged() {
-    return 'ok'
+    return
   }
 }

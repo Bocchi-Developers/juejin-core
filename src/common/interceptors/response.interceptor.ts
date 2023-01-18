@@ -1,9 +1,4 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-/**
- * 对响应体进行转换结构
- * @author Innei
- */
-import { isArrayLike } from 'lodash'
 import type { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
@@ -43,11 +38,11 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
 
     return next.handle().pipe(
       map((data) => {
-        if (typeof data === 'undefined') {
-          context.switchToHttp().getResponse().status(204)
-          return data
+        return {
+          code: context.switchToHttp().getResponse().statusCode || 200,
+          success: true,
+          data,
         }
-        return isArrayLike(data) ? { data } : data
       }),
     )
   }
