@@ -25,12 +25,6 @@ export class UserController {
     return
   }
 
-  @Get()
-  @ApiOperation({ summary: '获取主人基本信息' })
-  async getUserInfo() {
-    return await this.userService.getUserInfo()
-  }
-
   @Post('login')
   @ApiOperation({ summary: '登录' })
   @HttpCode(200)

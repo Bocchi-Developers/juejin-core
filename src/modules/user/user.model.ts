@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator'
 import { Document } from 'mongoose'
-import * as mongoose from 'mongoose';
+
 import { Prop, Schema } from '@nestjs/mongoose'
 
 @Schema({
@@ -13,26 +13,23 @@ import { Prop, Schema } from '@nestjs/mongoose'
   versionKey: false,
 })
 export class UserModel extends Document {
-  @Prop({unique:true})
+  @Prop({ unique: true })
   @IsString({ message: '用户名' })
   username: string
 
-  @Prop({select:false})
+  @Prop({ select: false })
   @IsString({ message: '密码' })
   password: string
 
-  @Prop({select:false})
-  authCode:string
+  @Prop({ select: false })
+  authCode: string
 
   @Prop()
-  avatar:string
+  avatar: string
 
   @Prop()
-  mail:string
+  introduce: string
 
   @Prop()
-  introduce:string
-
-  @Prop({ type: mongoose.Schema.Types.Mixed })
-  socialIds:any
+  admin: boolean
 }
