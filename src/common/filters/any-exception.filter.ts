@@ -31,7 +31,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       .status(status)
       .type('application/json')
       .send({
-        code: res.statusCode || 500,
+        code: res?.statusCode || 500,
         success: false,
         message: res?.message || (exception as any)?.message || '未知错误',
       })

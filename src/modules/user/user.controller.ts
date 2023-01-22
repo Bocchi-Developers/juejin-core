@@ -17,7 +17,7 @@ export class UserController {
     private readonly userService: UserService,
     private readonly authService: AuthService,
   ) {}
-
+  q
   @Post('register')
   @ApiOperation({ summary: '注册' })
   async register(@Body() userDto: UserDto) {

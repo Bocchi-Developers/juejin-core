@@ -4,7 +4,7 @@ import { Document } from 'mongoose'
 import { Prop, Schema } from '@nestjs/mongoose'
 
 @Schema({
-  collection: 'user',
+  collection: 'users',
   toObject: { virtuals: true, getters: true },
   timestamps: {
     createdAt: 'created',
