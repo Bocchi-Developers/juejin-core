@@ -5,12 +5,14 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common'
 
 import { Auth } from '~/common/decorator/auth.decorator'
 import { ApiName } from '~/common/decorator/openapi.decorator'
 import { NoContentCanBeModifiedException } from '~/common/exceptions/no-content-canbe-modified.exception'
+import { MongoIdDto } from '~/shared/dto/id.dto'
 
 import { CategoryDto } from './category.dto'
 import { CategoryService } from './category.service'
@@ -48,7 +50,17 @@ export class CategoryController {
     await this.categoryService.model.deleteOne({
       _id: category._id,
     })
+    return
+  }
 
+  @Patch('/:id')
+  @Auth()
+  async updateCategory(
+    @Param() params: MongoIdDto,
+    @Body() category: CategoryDto,
+  ) {
+    const { id } = params
+    await this.categoryService.model.updateOne({ _id: id }, category)
     return
   }
 }

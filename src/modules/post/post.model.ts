@@ -2,6 +2,7 @@ import { IsString } from 'class-validator'
 import mongoose, { Document } from 'mongoose'
 
 import { Prop, Schema } from '@nestjs/mongoose'
+import { PartialType } from '@nestjs/swagger'
 
 import { CategoryModel } from '../category/category.model'
 
@@ -32,3 +33,5 @@ export class PostModel extends Document {
   })
   category: CategoryModel
 }
+
+export class PartialPostModel extends PartialType(PostModel) {}

@@ -1,6 +1,11 @@
 import { Model } from 'mongoose'
 
-import { ForbiddenException, Injectable } from '@nestjs/common'
+import {
+  ForbiddenException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
 import { PostService } from '../post/post.service'
@@ -12,6 +17,7 @@ export class CategoryService {
   constructor(
     @InjectModel(CategoryModel.name)
     private readonly categoryModel: Model<CategoryModel>,
+    @Inject(forwardRef(() => PostService))
     private readonly postService: PostService,
   ) {}
   async create(category: CategoryDto) {

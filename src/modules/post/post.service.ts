@@ -1,11 +1,18 @@
 import { Model } from 'mongoose'
 
-import { ForbiddenException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  ForbiddenException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
 import { CategoryModel } from '../category/category.model'
+import { CategoryService } from '../category/category.service'
 import { PostDto, PostList } from './post.dto'
-import { PostModel } from './post.model'
+import { PartialPostModel, PostModel } from './post.model'
 
 @Injectable()
 export class PostService {
@@ -14,6 +21,8 @@ export class PostService {
     private readonly postModel: Model<PostModel>,
     @InjectModel(CategoryModel.name)
     private readonly categoryModel: Model<CategoryModel>,
+    @Inject(forwardRef(() => CategoryService))
+    private categoryService: CategoryService,
   ) {}
   async create(post: PostDto) {
     try {
@@ -98,6 +107,23 @@ export class PostService {
       throw new ForbiddenException('文章不存在')
     }
     await this.postModel.findByIdAndDelete(id)
+    return
+  }
+
+  async updateById(id: string, post: PartialPostModel) {
+    const oldPost = await this.postModel.findById(id, 'category')
+    if (!oldPost) {
+      throw new BadRequestException('文章不存在')
+    }
+    const { category } = post
+    if (category && category !== oldPost.category.id) {
+      const oldCategory = await this.categoryService.model.findById(category)
+      if (!oldCategory) {
+        throw new BadRequestException('分类不存在')
+      }
+    }
+
+    await this.postModel.updateOne({ _id: id }, post)
     return
   }
 

@@ -55,7 +55,6 @@ export class UserService {
   }
 
   patchUserData(data: UserDetailDto, user: UserModel) {
-    console.log(data)
     return this.userModel.updateOne({ _id: user._id }, data)
   }
 }

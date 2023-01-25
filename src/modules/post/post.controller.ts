@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common'
@@ -11,8 +12,10 @@ import { ApiOperation } from '@nestjs/swagger'
 
 import { Auth } from '~/common/decorator/auth.decorator'
 import { ApiName } from '~/common/decorator/openapi.decorator'
+import { MongoIdDto } from '~/shared/dto/id.dto'
 
 import { PostDto, PostList } from './post.dto'
+import { PartialPostModel } from './post.model'
 import { PostService } from './post.service'
 
 @Controller('post')
@@ -42,5 +45,11 @@ export class PostController {
   @Auth()
   async deletePost(@Param('id') id: string) {
     return await this.postService.deletePost(id)
+  }
+
+  @Patch('/:id')
+  @Auth()
+  async patch(@Param() params: MongoIdDto, @Body() body: PartialPostModel) {
+    return await this.postService.updateById(params.id, body)
   }
 }
