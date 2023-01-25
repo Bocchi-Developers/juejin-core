@@ -4,7 +4,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
 import { CategoryModel } from '../category/category.model'
-import { PostDto } from './post.dto'
+import { PostDto, PostList } from './post.dto'
 import { PostModel } from './post.model'
 
 @Injectable()
@@ -46,28 +46,43 @@ export class PostService {
     }
   }
 
-  async postPaginate(pageCurrent: number, pageSize: number) {
+  async postPaginate(post: PostList) {
+    const { pageCurrent, pageSize, categoryId, tag } = post as any
     const postList = await this.postModel.populate(
-      await this.postModel
-        .aggregate([
-          {
-            $project: {
-              content: {
-                $substrCP: ['$content', 1, 100],
-              },
-              _id: 1,
-              title: 1,
-              category: 1,
-              tags: 1,
-              created: 1,
+      await this.postModel.aggregate([
+        {
+          $project: {
+            content: {
+              $substrCP: ['$content', 1, 100],
             },
+            _id: 1,
+            title: 1,
+            category: 1,
+            tags: 1,
+            created: 1,
           },
-        ])
-        .sort({ created: 'desc' })
-        .skip(pageSize * (pageCurrent - 1))
-        .limit(pageSize),
+        },
+        {
+          $match: {
+            category: categoryId ? { $eq: categoryId } : { $exists: true },
+            tags: tag ? { $eq: tag } : { $exists: true },
+          },
+        },
+        {
+          $sort: {
+            created: -1,
+          },
+        },
+        {
+          $skip: pageSize * (pageCurrent - 1),
+        },
+        {
+          $limit: pageSize,
+        },
+      ]),
       { path: 'category' },
     )
+
     const totalCount = await this.postModel.count()
     const totalPages = Math.ceil(totalCount / pageSize)
     return {
@@ -77,80 +92,16 @@ export class PostService {
     }
   }
 
-  async findPostByCategory(
-    slug: string,
-    pageCurrent: number,
-    pageSize: number,
-  ) {
-    const category = await this.categoryModel.findOne({ slug })
-    const postList = await this.postModel.populate(
-      await this.postModel
-        .aggregate([
-          {
-            $match: {
-              category: { $eq: category.id },
-            },
-          },
-          {
-            $project: {
-              content: {
-                $substrCP: ['$content', 1, 100],
-              },
-              _id: 1,
-              title: 1,
-              category: 1,
-              tags: 1,
-              created: 1,
-            },
-          },
-        ])
-        .sort({ created: 'desc' })
-        .skip(pageSize * (pageCurrent - 1))
-        .limit(pageSize),
-      { path: 'category' },
-    )
-    const totalCount = await this.postModel.count({ category: category.id })
-    const totalPages = Math.ceil(totalCount / pageSize)
-    return {
-      postList,
-      totalCount,
-      totalPages,
+  async deletePost(id: string) {
+    const _post = await this.postModel.findById(id)
+    if (!_post) {
+      throw new ForbiddenException('文章不存在')
     }
+    await this.postModel.findByIdAndDelete(id)
+    return
   }
 
-  async findPostByTag(slug: string, pageCurrent: number, pageSize: number) {
-    const postList = await this.postModel.populate(
-      await this.postModel
-        .aggregate([
-          {
-            $match: {
-              tags: { $eq: slug },
-            },
-          },
-          {
-            $project: {
-              content: {
-                $substrCP: ['$content', 1, 100],
-              },
-              _id: 1,
-              title: 1,
-              category: 1,
-              tags: 1,
-              created: 1,
-            },
-          },
-        ])
-        .sort({ created: 'desc' })
-        .skip(pageSize * (pageCurrent - 1))
-        .limit(pageSize),
-      { path: 'category' },
-    )
-    const totalCount = await this.postModel.count({ tags: slug })
-    const totalPages = Math.ceil(totalCount / pageSize)
-    return {
-      postList,
-      totalCount,
-      totalPages,
-    }
+  get model() {
+    return this.postModel
   }
 }
