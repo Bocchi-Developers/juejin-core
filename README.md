@@ -17,3 +17,12 @@ $ pnpm dev
 - 数据库：mongodb
 - 代码风格：Eslint、Prettier
 - 代码提交：Husky、Commitlint、lint-staged、cz-git、bump-version
+
+## 部署
+
+```
+wget https://fastly.jsdelivr.net/gh/Bocchi-Developers/juejin-core@master/docker-compose.yml
+wget https://fastly.jsdelivr.net/gh/Bocchi-Developers/juejin-core@master/.env.example -O .env
+编辑 .env 文件
+docker compose up -d
+```
