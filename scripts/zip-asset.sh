@@ -1,2 +1,3 @@
 #!/bin/sh
-zip -r release.zip out/*
+cd out
+zip -r ../release.zip ./*
