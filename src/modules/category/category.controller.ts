@@ -9,6 +9,7 @@ import {
   Post,
 } from '@nestjs/common'
 
+import { Admin } from '~/common/decorator/admin.decorator'
 import { Auth } from '~/common/decorator/auth.decorator'
 import { ApiName } from '~/common/decorator/openapi.decorator'
 import { NoContentCanBeModifiedException } from '~/common/exceptions/no-content-canbe-modified.exception'
@@ -23,6 +24,7 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post('/')
+  @Admin()
   @Auth()
   async create(@Body() category: CategoryDto) {
     return this.categoryService.create(category)
@@ -34,6 +36,7 @@ export class CategoryController {
   }
 
   @Delete('/:id')
+  @Admin()
   @Auth()
   async deleteCategory(@Param('id') id: string) {
     const category = await this.categoryService.model.findById(id)
@@ -54,6 +57,7 @@ export class CategoryController {
   }
 
   @Patch('/:id')
+  @Admin()
   @Auth()
   async updateCategory(
     @Param() params: MongoIdDto,

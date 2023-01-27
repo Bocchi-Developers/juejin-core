@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common'
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
 
 import { AppController } from './app.controller'
 import { AllExceptionsFilter } from './common/filters/any-exception.filter'
+import { RolesGuard } from './common/guard/roles.guard'
 import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { CategoryModule } from './modules/category/category.module'
 import { PostModule } from './modules/post/post.module'
@@ -29,6 +30,10 @@ import { LoggerModule } from './processors/logger/logger.module'
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor, // 1
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

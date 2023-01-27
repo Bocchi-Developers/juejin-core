@@ -11,12 +11,11 @@ import { getNestExecutionContextRequest } from '~/transformers/get-req.transform
 export class AuthGuard extends _AuthGuard('jwt') implements CanActivate {
   override async canActivate(context: ExecutionContext): Promise<any> {
     const request = this.getRequest(context)
-
     if (typeof request.user !== 'undefined') {
       return true
     }
 
-    return super.canActivate(context) as any
+    return super.canActivate(context)
   }
 
   getRequest(context: ExecutionContext) {

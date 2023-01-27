@@ -34,7 +34,7 @@ export class UserController {
     return {
       username,
       token: await this.authService.signToken(user.id.toString()),
-      expiresIn: 7,
+      expiresIn: 30,
     }
   }
 
