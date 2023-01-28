@@ -13,6 +13,8 @@ import { InjectModel } from '@nestjs/mongoose'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { ApiOperation } from '@nestjs/swagger'
 
+import { ApiName } from '~/common/decorator/openapi.decorator'
+
 import { UploadModel } from './upload.model'
 
 const accessKey = 'zofbgJ5lqN2HE9SOccOHt6juH1B3BLdqmJMrA7ik'
@@ -28,6 +30,7 @@ const putPolicy = new qiniu.rs.PutPolicy(options)
 const uploadToken = putPolicy.uploadToken(mac)
 
 @Controller('upload')
+@ApiName
 export class UploadController {
   constructor(
     @InjectModel('UploadModel')
