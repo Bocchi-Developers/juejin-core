@@ -54,7 +54,15 @@ export class UserService {
     return !!(await this.userModel.count())
   }
 
-  patchUserData(data: UserDetailDto, user: UserModel) {
+  async patchUserData(data: UserDetailDto, user: UserModel) {
+    const _user = await this.userModel.findById(user._id)
+    if (data?.admin != undefined && data?.admin != _user.admin) {
+      throw new ForbiddenException('无权修改管理员权限')
+    }
     return this.userModel.updateOne({ _id: user._id }, data)
+  }
+
+  getAdminInfo() {
+    return this.userModel.findOne({ admin: true })
   }
 }

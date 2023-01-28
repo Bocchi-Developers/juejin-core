@@ -17,7 +17,7 @@ export class UserController {
     private readonly userService: UserService,
     private readonly authService: AuthService,
   ) {}
-  q
+
   @Post('register')
   @ApiOperation({ summary: '注册' })
   async register(@Body() userDto: UserDto) {
@@ -36,6 +36,12 @@ export class UserController {
       token: await this.authService.signToken(user.id.toString()),
       expiresIn: 30,
     }
+  }
+
+  @Get('admin')
+  @ApiOperation({ summary: '获取管理员信息' })
+  async adminInfo() {
+    return this.userService.getAdminInfo()
   }
 
   @Patch()
