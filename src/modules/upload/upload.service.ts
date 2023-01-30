@@ -2,11 +2,11 @@ import qiniu from 'qiniu'
 
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 
-import { QNY } from '~/app.config'
+import { QINIU_SECRET } from '~/app.config'
 
-const mac = new qiniu.auth.digest.Mac(QNY.QN_AK, QNY.QN_SK)
+const mac = new qiniu.auth.digest.Mac(QINIU_SECRET.qn_ak, QINIU_SECRET.qn_sk)
 const putPolicy = new qiniu.rs.PutPolicy({
-  scope: QNY.QN_SCOPE,
+  scope: QINIU_SECRET.qn_scope,
 })
 const uploadToken = putPolicy.uploadToken(mac)
 
@@ -32,7 +32,7 @@ export class UploadService {
             throw new InternalServerErrorException(respErr.message)
           }
           if (respInfo.statusCode == 200) {
-            resolve(`${QNY.QN_HOST}/${respBody.key}`)
+            resolve(`${QINIU_SECRET.qn_host}/${respBody.key}`)
           } else {
             throw new InternalServerErrorException(respErr.message)
           }

@@ -54,7 +54,7 @@ function registerGlobal() {
   }
 }
 
-function dotenvConfig() {
+function registerDotenv() {
   dotenv.config()
 }
 
@@ -62,6 +62,6 @@ export function register() {
   registerGlobal()
   registerStdLogger()
   registerJSONGlobal()
-  dotenvConfig()
+  registerDotenv()
   mkdirs()
 }

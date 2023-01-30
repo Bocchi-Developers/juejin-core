@@ -4,7 +4,7 @@ services:
   app:
     container_name: juejin-core
     image: suemor/juejin-core:latest
-    command: node index.js --db_host=juejin_mongo --color
+    command: node index.js --db_host=juejin_mongo --allowed_origins=${ALLOWED_ORIGINS} --qn_ak=${QN_AK} --qn_sk=${QN_SK} --qn_scope=${QN_SCOPE} --qn_host=${QN_HOST} --color
     environment:
       - TZ=Asia/Shanghai
       - NODE_ENV=production

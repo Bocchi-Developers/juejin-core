@@ -4,7 +4,9 @@ export const PORT = 7498
 export const API_VERSION = 1
 
 export const CROSS_DOMAIN = {
-  allowedOrigins: ['suemor.com', 'localhost', '127.0.0.1', '.*dev'],
+  allowedOrigins: argv.allowed_origins
+    ? argv.allowed_origins?.split?.(',')
+    : ['juejin.suemor.com', 'localhost', '127.0.0.1', '.*dev'],
 }
 
 export const MONGO_DB = {
@@ -26,9 +28,9 @@ export const SECURITY = {
 }
 
 // 七牛云
-export const QNY = {
-  QN_HOST: process.env.QN_HOST,
-  QN_SCOPE: process.env.QN_SCOPE,
-  QN_AK: process.env.QN_AK,
-  QN_SK: process.env.QN_SK,
+export const QINIU_SECRET = {
+  qn_host: argv.qn_host || process.env.QN_HOST,
+  qn_scope: argv.qn_scope || process.env.QN_SCOPE,
+  qn_ak: argv.qn_ak || process.env.QN_AK,
+  qn_sk: argv.qn_sk || process.env.QN_SK,
 }
