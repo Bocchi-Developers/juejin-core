@@ -3,14 +3,12 @@ import { MongooseModule, SchemaFactory } from '@nestjs/mongoose'
 import { CategoryModel } from '~/modules/category/category.model'
 import { OptionModel } from '~/modules/option/option.model'
 import { PostModel } from '~/modules/post/post.model'
-import { UploadModel } from '~/modules/upload/upload.model'
 import { UserModel } from '~/modules/user/user.model'
 
 export const databaseModels = [
   UserModel,
   PostModel,
   CategoryModel,
-  UploadModel,
   OptionModel,
 ].map((model: any) =>
   MongooseModule.forFeature([

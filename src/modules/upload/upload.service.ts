@@ -1,16 +1,12 @@
-import { Model } from 'mongoose'
 import qiniu from 'qiniu'
 
 import { Injectable } from '@nestjs/common'
-import { InjectModel } from '@nestjs/mongoose'
 
 import { QNY } from '~/app.config'
 
-import { UploadModel } from './upload.model'
-
-const mac = new qiniu.auth.digest.Mac(QNY.ACCESSKEY, QNY.SecretKey)
+const mac = new qiniu.auth.digest.Mac(QNY.QN_AK, QNY.QN_SK)
 const options = {
-  scope: QNY.scope,
+  scope: QNY.QN_SCOPE,
   expires: 7200, // 凭证有效时间
   returnBody:
     '{"key":"$(key)","hash":"$(etag)","fsize":$(fsize),"bucket":"$(bucket)","name":"$(x:name)"}',
@@ -20,12 +16,8 @@ const uploadToken = putPolicy.uploadToken(mac)
 
 @Injectable()
 export class UploadService {
-  constructor(
-    @InjectModel('UploadModel')
-    private UploadModel: Model<UploadModel>,
-  ) {}
-
   async upload(file) {
+    console.log(QNY.QN_SCOPE)
     const filename = `${Date.now()}-${file.originalname}`
     const formUploader = new qiniu.form_up.FormUploader(
       new qiniu.conf.Config({
@@ -45,8 +37,9 @@ export class UploadService {
             throw respErr
           }
           if (respInfo.statusCode == 200) {
-            resolve(`${QNY.host}${respBody.key}`)
+            resolve(`${QNY.QN_HOST}${respBody.key}`)
           } else {
+            console.log(respBody)
             reject({
               code: respInfo.statusCode,
               respBody,

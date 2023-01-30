@@ -27,8 +27,8 @@ export const SECURITY = {
 
 // 七牛云
 export const QNY = {
-  host: 'http://rp6deac7u.hn-bkt.clouddn.com/',
-  scope: 'bocchi-album',
-  ACCESSKEY: process.env.ACCESSKEY,
-  SecretKey: process.env.SECRETKEY,
+  QN_HOST: process.env.QN_HOST,
+  QN_SCOPE: process.env.QN_SCOPE,
+  QN_AK: process.env.QN_AK,
+  QN_SK: process.env.QN_SK,
 }
