@@ -29,6 +29,6 @@ export const SECURITY = {
 export const QNY = {
   host: 'http://rp6deac7u.hn-bkt.clouddn.com/',
   scope: 'bocchi-album',
-  AccessKey: process.env.AccessKey,
-  SecretKey: process.env.SecretKey,
+  ACCESSKEY: process.env.ACCESSKEY,
+  SecretKey: process.env.SECRETKEY,
 }

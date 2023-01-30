@@ -8,7 +8,7 @@ import { QNY } from '~/app.config'
 
 import { UploadModel } from './upload.model'
 
-const mac = new qiniu.auth.digest.Mac(QNY.AccessKey, QNY.SecretKey)
+const mac = new qiniu.auth.digest.Mac(QNY.ACCESSKEY, QNY.SecretKey)
 const options = {
   scope: QNY.scope,
   expires: 7200, // 凭证有效时间
