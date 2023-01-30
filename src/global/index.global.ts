@@ -1,5 +1,6 @@
 /* eslint-disable import/order */
 import cluster from 'cluster'
+import dotenv from 'dotenv'
 import { mkdirSync } from 'fs'
 
 import 'zx-cjs/globals'
@@ -53,10 +54,14 @@ function registerGlobal() {
   }
 }
 
+function registerDotenv() {
+  dotenv.config()
+}
+
 export function register() {
   registerGlobal()
   registerStdLogger()
   registerJSONGlobal()
-
+  registerDotenv()
   mkdirs()
 }
