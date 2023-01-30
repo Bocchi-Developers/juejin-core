@@ -14,6 +14,9 @@ export const MONGO_DB = {
   host: argv.db_host || '127.0.0.1',
   port: 27017,
   get uri() {
+    if (process.env.MONGO_URL) {
+      return process.env.MONGO_URL
+    }
     return `mongodb://${this.host}:${this.port}/${this.dbName}`
   },
 }

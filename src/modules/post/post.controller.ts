@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Param,
   Patch,
@@ -11,9 +12,11 @@ import {
 import { ApiOperation } from '@nestjs/swagger'
 
 import { Auth } from '~/common/decorator/auth.decorator'
+import { CurrentUser } from '~/common/decorator/current-user.decorator'
 import { ApiName } from '~/common/decorator/openapi.decorator'
 import { MongoIdDto } from '~/shared/dto/id.dto'
 
+import { UserModel } from '../user/user.model'
 import { PostDto, PostList } from './post.dto'
 import { PartialPostModel } from './post.model'
 import { PostService } from './post.service'
@@ -25,8 +28,8 @@ export class PostController {
 
   @Post('/')
   @Auth()
-  async create(@Body() post: PostDto) {
-    return await this.postService.create(post)
+  async create(@Body() post: PostDto, @CurrentUser() user: UserModel) {
+    return await this.postService.create(post, user)
   }
 
   @Get(':id')
@@ -43,13 +46,25 @@ export class PostController {
 
   @Delete(':id')
   @Auth()
-  async deletePost(@Param('id') id: string) {
+  async deletePost(@Param('id') id: string, @CurrentUser() user: UserModel) {
+    const _post = await this.postService.model.findById(id)
+    if (_post?.user !== user._id && !user.admin) {
+      throw new ForbiddenException('没有权限删除')
+    }
     return await this.postService.deletePost(id)
   }
 
   @Patch('/:id')
   @Auth()
-  async patch(@Param() params: MongoIdDto, @Body() body: PartialPostModel) {
+  async patch(
+    @Param() params: MongoIdDto,
+    @Body() body: PartialPostModel,
+    @CurrentUser() user: UserModel,
+  ) {
+    const _post = await this.postService.model.findById(params.id)
+    if (_post?.user !== user._id && !user.admin) {
+      throw new ForbiddenException('没有权限修改')
+    }
     return await this.postService.updateById(params.id, body)
   }
 }
