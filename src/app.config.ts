@@ -24,3 +24,11 @@ export const SECURITY = {
   jwtSecret: 'juejin',
   jwtExpire: '30d',
 }
+
+// 七牛云
+export const QNY = {
+  host: 'http://rp6deac7u.hn-bkt.clouddn.com/',
+  scope: 'bocchi-album',
+  AccessKey: process.env.AccessKey,
+  SecretKey: process.env.SecretKey,
+}
