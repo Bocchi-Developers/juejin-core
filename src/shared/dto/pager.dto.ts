@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer'
 import { IsInt } from 'class-validator'
 
-export class PagerDto {
+export class paginateDto {
   @IsInt()
   @Transform(({ value: val }) => (val ? parseInt(val) : 1), {
     toClassOnly: true,

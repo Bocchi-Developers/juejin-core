@@ -59,6 +59,7 @@ function registerDotenv() {
 }
 
 export function register() {
+  registerDotenv()
   registerGlobal()
   registerStdLogger()
   registerJSONGlobal()
