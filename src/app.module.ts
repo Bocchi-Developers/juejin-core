@@ -6,6 +6,7 @@ import { AllExceptionsFilter } from './common/filters/any-exception.filter'
 import { RolesGuard } from './common/guard/roles.guard'
 import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { AdvertisementModule } from './modules/advertisement/advertisement.module'
+import { AggregateModule } from './modules/aggregate/aggregate.module'
 import { CategoryModule } from './modules/category/category.module'
 import { OptionModule } from './modules/option/option.module'
 import { PostModule } from './modules/post/post.module'
@@ -26,6 +27,7 @@ import { LoggerModule } from './processors/logger/logger.module'
     UploadModule,
     AdvertisementModule,
     OptionModule,
+    AggregateModule,
   ],
   controllers: [AppController],
   providers: [
