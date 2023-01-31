@@ -15,7 +15,7 @@ import { Prop, Schema } from '@nestjs/mongoose'
 export class AdvModel extends Document {
   @Prop({ unique: true })
   @IsString({ message: '图片地址' })
-  PhoUrl: string
+  phoUrl: string
 
   @Prop({ select: false })
   @IsString({ message: '跳转地址' })

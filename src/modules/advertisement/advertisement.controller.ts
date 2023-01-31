@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -11,10 +12,15 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express'
 import { ApiOperation } from '@nestjs/swagger'
 
+import { Auth } from '~/common/decorator/auth.decorator'
+import { ApiName } from '~/common/decorator/openapi.decorator'
+
 import { UploadService } from '../upload/upload.service'
 import { AdvertisementService } from './advertisement.service'
 
 @Controller('advertisement')
+@ApiName
+@Auth() // 权限校验
 export class AdvertisementController {
   constructor(
     private readonly advertisementService: AdvertisementService,
@@ -37,6 +43,17 @@ export class AdvertisementController {
   ) {
     const result = await this.uploadService.upload(file)
     await this.advertisementService.addUrl(result, goUrl)
+  }
+
+  @Patch('/update')
+  @ApiOperation({ summary: '广告修改' })
+  @UseInterceptors(FileInterceptor('file'))
+  async updateUrl(
+    @UploadedFile() file: Express.Multer.File,
+    @Body('goUrl') goUrl: string,
+  ) {
+    const result = await this.uploadService.upload(file)
+    await this.advertisementService.updateUrl(result, goUrl)
   }
 
   @Delete('/delete/:id')

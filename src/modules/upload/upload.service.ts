@@ -1,6 +1,10 @@
 import qiniu from 'qiniu'
 
-import { Injectable, InternalServerErrorException } from '@nestjs/common'
+import {
+  ForbiddenException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common'
 
 import { QINIU_SECRET } from '~/app.config'
 
@@ -10,9 +14,15 @@ const putPolicy = new qiniu.rs.PutPolicy({
 })
 const uploadToken = putPolicy.uploadToken(mac)
 
+const config = new qiniu.conf.Config()
+const bucketManager = new qiniu.rs.BucketManager(mac, config)
+
 @Injectable()
 export class UploadService {
   upload(file: Express.Multer.File): Promise<string> {
+    if (!file) {
+      throw new ForbiddenException('请传入图片')
+    }
     const filename = `${Date.now()}-${file.originalname}`
     const formUploader = new qiniu.form_up.FormUploader(
       new qiniu.conf.Config({
@@ -35,6 +45,22 @@ export class UploadService {
             resolve(`${QINIU_SECRET.qn_host}/${respBody.key}`)
           } else {
             throw new InternalServerErrorException(respErr.message)
+          }
+        },
+      )
+    })
+  }
+
+  remove(fileName: string) {
+    return new Promise((resolve) => {
+      bucketManager.delete(
+        QINIU_SECRET.qn_scope,
+        fileName,
+        (err, respBody, respInfo) => {
+          if (err) {
+            throw new InternalServerErrorException(err.message)
+          } else {
+            resolve('删除成功')
           }
         },
       )

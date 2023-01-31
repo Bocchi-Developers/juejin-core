@@ -7,6 +7,7 @@ import { RolesGuard } from './common/guard/roles.guard'
 import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { AdvertisementModule } from './modules/advertisement/advertisement.module'
 import { CategoryModule } from './modules/category/category.module'
+import { OptionModule } from './modules/option/option.module'
 import { PostModule } from './modules/post/post.module'
 import { UploadModule } from './modules/upload/upload.module'
 import { UserModule } from './modules/user/user.module'
@@ -24,6 +25,7 @@ import { LoggerModule } from './processors/logger/logger.module'
     CategoryModule,
     UploadModule,
     AdvertisementModule,
+    OptionModule,
   ],
   controllers: [AppController],
   providers: [
