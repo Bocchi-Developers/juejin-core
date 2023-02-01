@@ -17,7 +17,7 @@ import { Auth } from '~/common/decorator/auth.decorator'
 import { ApiName } from '~/common/decorator/openapi.decorator'
 
 import { UploadService } from '../upload/upload.service'
-import { goUrlDto } from './advertisement.dto'
+import { adDto } from './advertisement.dto'
 import { AdvertisementService } from './advertisement.service'
 
 @Controller('advertisement')
@@ -43,7 +43,7 @@ export class AdvertisementController {
   @UseInterceptors(FileInterceptor('file'))
   async addUrl(
     @UploadedFile() file: Express.Multer.File,
-    @Body() goUrl: goUrlDto,
+    @Body() goUrl: adDto,
   ) {
     const result = await this.uploadService.upload(file)
     await this.advertisementService.addUrl(result, goUrl)
@@ -57,7 +57,7 @@ export class AdvertisementController {
   @UseInterceptors(FileInterceptor('file'))
   async updateUrl(
     @UploadedFile() file: Express.Multer.File,
-    @Body() goUrl: goUrlDto,
+    @Body() goUrl: adDto,
   ) {
     let result = null
     if (file) {

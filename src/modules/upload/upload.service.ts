@@ -1,7 +1,7 @@
 import qiniu from 'qiniu'
 
 import {
-  ForbiddenException,
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common'
@@ -21,7 +21,7 @@ const bucketManager = new qiniu.rs.BucketManager(mac, config)
 export class UploadService {
   upload(file: Express.Multer.File): Promise<string> {
     if (!file) {
-      throw new ForbiddenException('请传入图片')
+      throw new BadRequestException('请传入图片')
     }
     const filename = `${Date.now()}-${file.originalname}`
     const formUploader = new qiniu.form_up.FormUploader(

@@ -1,10 +1,14 @@
 import { Model } from 'mongoose'
 
-import { ForbiddenException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
 import { UploadService } from '../upload/upload.service'
-import { goUrlDto } from './advertisement.dto'
+import { adDto } from './advertisement.dto'
 import { AdModel } from './advertisement.model'
 
 @Injectable()
@@ -19,10 +23,10 @@ export class AdvertisementService {
     return await this.AdModel.findOne()
   }
 
-  async addUrl(url: string, goUrl: goUrlDto) {
+  async addUrl(url: string, goUrl: adDto) {
     const result = await this.AdModel.count()
     if (result >= 1) {
-      throw new ForbiddenException('请修改图片')
+      throw new BadRequestException('广告已经存在')
     }
     return await this.AdModel.create({
       phoUrl: url,
@@ -30,7 +34,7 @@ export class AdvertisementService {
     })
   }
 
-  async updateUrl(url: string, goUrl: goUrlDto) {
+  async updateUrl(url: string, ad: adDto) {
     const result = await this.AdModel.findOne()
     let originUrl
     if (!url) {
@@ -43,14 +47,14 @@ export class AdvertisementService {
       { _id: result.id },
       {
         phoUrl: url || originUrl,
-        goUrl: goUrl.goUrl,
+        goUrl: ad.goUrl,
       },
     )
   }
 
   async remove(id: string) {
-    const adv = await this.AdModel.findById(id)
-    if (!adv) {
+    const ad = await this.AdModel.findById(id)
+    if (!ad) {
       throw new ForbiddenException('删除失败')
     }
     return await this.AdModel.deleteOne({
