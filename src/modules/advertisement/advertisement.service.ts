@@ -32,12 +32,17 @@ export class AdvertisementService {
 
   async updateUrl(url: string, goUrl: goUrlDto) {
     const result = await this.AdModel.findOne()
-    const name = result.phoUrl.split('/')[result.phoUrl.split('/').length - 1]
-    this.uploadService.remove(name)
+    let originUrl
+    if (!url) {
+      originUrl = result.phoUrl
+    } else {
+      const name = result.phoUrl.split('/')[result.phoUrl.split('/').length - 1]
+      this.uploadService.remove(name)
+    }
     await this.AdModel.updateOne(
       { _id: result.id },
       {
-        phoUrl: url,
+        phoUrl: url || originUrl,
         goUrl: goUrl.goUrl,
       },
     )

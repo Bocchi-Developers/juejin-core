@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Delete,
-  ForbiddenException,
   Get,
   Param,
   Patch,
@@ -11,8 +10,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { ApiOperation } from '@nestjs/swagger'
+import { ApiConsumes, ApiOperation } from '@nestjs/swagger'
 
+import { Admin } from '~/common/decorator/admin.decorator'
 import { Auth } from '~/common/decorator/auth.decorator'
 import { ApiName } from '~/common/decorator/openapi.decorator'
 
@@ -36,38 +36,39 @@ export class AdvertisementController {
   }
 
   @Post()
+  @Admin()
   @Auth()
   @ApiOperation({ summary: '广告增加' })
+  @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   async addUrl(
     @UploadedFile() file: Express.Multer.File,
     @Body() goUrl: goUrlDto,
   ) {
-    if (!file) {
-      throw new ForbiddenException('请传入文件')
-    } else {
-      const result = await this.uploadService.upload(file)
-      await this.advertisementService.addUrl(result, goUrl)
-    }
+    const result = await this.uploadService.upload(file)
+    await this.advertisementService.addUrl(result, goUrl)
   }
 
   @Patch()
+  @Admin()
   @Auth()
   @ApiOperation({ summary: '广告修改' })
+  @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   async updateUrl(
     @UploadedFile() file: Express.Multer.File,
     @Body() goUrl: goUrlDto,
   ) {
-    if (!file) {
-      throw new ForbiddenException('请传入文件')
-    } else {
-      const result = await this.uploadService.upload(file)
-      await this.advertisementService.updateUrl(result, goUrl)
+    let result = null
+    if (file) {
+      result = await this.uploadService.upload(file)
     }
+
+    await this.advertisementService.updateUrl(result, goUrl)
   }
 
   @Delete('/:id')
+  @Admin()
   @Auth()
   @ApiOperation({ summary: '广告删除' })
   async remove(@Param('id') id: string) {
