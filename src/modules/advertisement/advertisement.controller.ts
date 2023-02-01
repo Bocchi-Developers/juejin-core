@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Param,
   Patch,
@@ -16,11 +17,11 @@ import { Auth } from '~/common/decorator/auth.decorator'
 import { ApiName } from '~/common/decorator/openapi.decorator'
 
 import { UploadService } from '../upload/upload.service'
+import { goUrlDto } from './advertisement.dto'
 import { AdvertisementService } from './advertisement.service'
 
 @Controller('advertisement')
 @ApiName
-@Auth() // 权限校验
 export class AdvertisementController {
   constructor(
     private readonly advertisementService: AdvertisementService,
@@ -34,29 +35,40 @@ export class AdvertisementController {
     return result
   }
 
-  @Post('/addPto')
+  @Post()
+  @Auth()
   @ApiOperation({ summary: '广告增加' })
   @UseInterceptors(FileInterceptor('file'))
   async addUrl(
     @UploadedFile() file: Express.Multer.File,
-    @Body('goUrl') goUrl: string,
+    @Body() goUrl: goUrlDto,
   ) {
-    const result = await this.uploadService.upload(file)
-    await this.advertisementService.addUrl(result, goUrl)
+    if (!file) {
+      throw new ForbiddenException('请传入文件')
+    } else {
+      const result = await this.uploadService.upload(file)
+      await this.advertisementService.addUrl(result, goUrl)
+    }
   }
 
-  @Patch('/update')
+  @Patch()
+  @Auth()
   @ApiOperation({ summary: '广告修改' })
   @UseInterceptors(FileInterceptor('file'))
   async updateUrl(
     @UploadedFile() file: Express.Multer.File,
-    @Body('goUrl') goUrl: string,
+    @Body() goUrl: goUrlDto,
   ) {
-    const result = await this.uploadService.upload(file)
-    await this.advertisementService.updateUrl(result, goUrl)
+    if (!file) {
+      throw new ForbiddenException('请传入文件')
+    } else {
+      const result = await this.uploadService.upload(file)
+      await this.advertisementService.updateUrl(result, goUrl)
+    }
   }
 
-  @Delete('/delete/:id')
+  @Delete('/:id')
+  @Auth()
   @ApiOperation({ summary: '广告删除' })
   async remove(@Param('id') id: string) {
     await this.advertisementService.remove(id)

@@ -12,7 +12,7 @@ import { Prop, Schema } from '@nestjs/mongoose'
   },
   versionKey: false,
 })
-export class AdvModel extends Document {
+export class AdModel extends Document {
   @Prop({ unique: true })
   @IsString({ message: '图片地址' })
   phoUrl: string
