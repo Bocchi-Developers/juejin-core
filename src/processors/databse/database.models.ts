@@ -1,5 +1,6 @@
 import { MongooseModule, SchemaFactory } from '@nestjs/mongoose'
 
+import { AdModel } from '~/modules/advertisement/advertisement.model'
 import { CategoryModel } from '~/modules/category/category.model'
 import { OptionModel } from '~/modules/option/option.model'
 import { PostModel } from '~/modules/post/post.model'
@@ -10,6 +11,7 @@ export const databaseModels = [
   PostModel,
   CategoryModel,
   OptionModel,
+  AdModel,
 ].map((model: any) =>
   MongooseModule.forFeature([
     { name: model.name, schema: SchemaFactory.createForClass(model) },
