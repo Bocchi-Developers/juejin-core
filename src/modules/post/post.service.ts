@@ -41,15 +41,34 @@ export class PostService {
       throw new ForbiddenException('文章不存在')
     }
     await this.postModel.updateOne({ _id: id }, { $inc: { read: 1 } })
-    const post = await this.postModel.findById(id).populate('category user')
-    return {
-      post,
-    }
+    const post = await this.postModel
+      .findById(id)
+      .populate('category user')
+      .lean()
+    post.id = post._id
+    const relatedPost = await this.postModel.aggregate([
+      {
+        $sample: {
+          size: 5,
+        },
+      },
+      {
+        $project: {
+          title: 1,
+        },
+      },
+      {
+        $match: {
+          _id: { $ne: post._id },
+        },
+      },
+    ])
+    post['related'] = relatedPost
+    return post
   }
 
   async postPaginate(post: PostList) {
     const { pageCurrent, pageSize, categoryId, tag, sort } = post
-    console.log(sort != Sort.Newest)
     const postList = await this.postModel.populate(
       await this.postModel.aggregate([
         {
