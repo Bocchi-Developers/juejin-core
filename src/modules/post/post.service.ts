@@ -48,25 +48,32 @@ export class PostService {
     post.id = post._id
     const relatedPost = await this.postModel.aggregate([
       {
-        $sample: {
-          size: 5,
-        },
-      },
-      {
         $project: {
           title: 1,
+          read: 1,
+          category: 1,
         },
       },
       {
         $match: {
           _id: { $ne: post._id },
+          category: (await this.postModel.findOne({ _id: id })).category,
         },
+      },
+      {
+        $sort: {
+          read: -1,
+        },
+      },
+      {
+        $limit: 10,
       },
     ])
     post['related'] = relatedPost
     return post
   }
 
+  // FIXME 无法查询到当前页面之外的文章，需要分组查询
   async postPaginate(post: PostList) {
     const { pageCurrent, pageSize, category, tag, sort } = post
     const _category = await this.categoryService.find(category)
