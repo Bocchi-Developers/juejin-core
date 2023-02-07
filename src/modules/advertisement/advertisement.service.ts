@@ -23,18 +23,18 @@ export class AdvertisementService {
     return await this.AdModel.findOne()
   }
 
-  async addUrl(url: string, goUrl: adDto) {
+  async addUrl(url: string, href: adDto) {
     const result = await this.AdModel.count()
     if (result >= 1) {
       throw new BadRequestException('广告已经存在')
     }
     return await this.AdModel.create({
       phoUrl: url,
-      goUrl: goUrl.goUrl,
+      ...href,
     })
   }
 
-  async updateUrl(url: string, ad: adDto) {
+  async updateUrl(url: string, href: adDto) {
     const result = await this.AdModel.findOne()
     let originUrl
     if (!url) {
@@ -47,7 +47,7 @@ export class AdvertisementService {
       { _id: result.id },
       {
         phoUrl: url || originUrl,
-        goUrl: ad.goUrl,
+        ...href,
       },
     )
   }

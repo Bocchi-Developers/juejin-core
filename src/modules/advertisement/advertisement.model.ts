@@ -1,4 +1,3 @@
-import { IsString } from 'class-validator'
 import { Document } from 'mongoose'
 
 import { Prop, Schema } from '@nestjs/mongoose'
@@ -14,10 +13,11 @@ import { Prop, Schema } from '@nestjs/mongoose'
 })
 export class AdModel extends Document {
   @Prop({ unique: true })
-  @IsString({ message: '图片地址' })
   phoUrl: string
 
-  @Prop({ select: false })
-  @IsString({ message: '跳转地址' })
-  goUrl: string
+  @Prop()
+  adHref: string
+
+  @Prop()
+  putAdHref: string
 }

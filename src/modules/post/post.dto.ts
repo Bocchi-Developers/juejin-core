@@ -41,7 +41,7 @@ export class PostDto {
 export class PostList extends paginateDto {
   @IsString()
   @IsOptional()
-  categoryId?: string
+  category?: string
 
   @IsString()
   @IsOptional()

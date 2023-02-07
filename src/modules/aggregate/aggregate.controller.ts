@@ -6,6 +6,7 @@ import { ApiName } from '~/common/decorator/openapi.decorator'
 import { AdvertisementService } from '../advertisement/advertisement.service'
 import { CategoryService } from '../category/category.service'
 import { OptionService } from '../option/option.service'
+import { TabService } from '../tab/tab.service'
 import { UserService } from '../user/user.service'
 import { AggregateService } from './aggregate.service'
 
@@ -18,18 +19,21 @@ export class AggregateController {
     private readonly optionService: OptionService,
     private readonly categoryService: CategoryService,
     private readonly adService: AdvertisementService,
+    private readonly tabService: TabService,
   ) {}
 
   @Get()
   @ApiOperation({ summary: '首屏数据' })
   async aggregate() {
-    const [user, seo] = await Promise.all([
+    const [user, seo, tab] = await Promise.all([
       this.userService.getAdminInfo(),
       this.optionService.seoInfo(),
+      this.tabService.findAllTab(),
     ])
     return {
       user,
       seo,
+      tab,
     }
   }
 

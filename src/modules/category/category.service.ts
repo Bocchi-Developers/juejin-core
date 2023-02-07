@@ -1,4 +1,5 @@
 import { Model } from 'mongoose'
+import { machineIdSync } from 'node-machine-id'
 
 import {
   ForbiddenException,
@@ -22,14 +23,14 @@ export class CategoryService {
   ) {}
   async create(category: CategoryDto) {
     const slug = await this.find(category.slug)
-    if (slug.length) {
+    if (slug) {
       throw new ForbiddenException('分类已存在')
     }
     return this.categoryModel.create(category)
   }
 
   find(slug: string) {
-    return this.categoryModel.find({ slug })
+    return this.categoryModel.findOne({ slug })
   }
 
   get model() {
@@ -41,7 +42,13 @@ export class CategoryService {
       categoryId: id,
     })
   }
-  findAllCategory() {
-    return this.categoryModel.find()
+  async findAllCategory() {
+    const category = await this.categoryModel.find().lean()
+    category.unshift({
+      name: '综合',
+      slug: '',
+      _id: Buffer.from(machineIdSync()).toString('base64').slice(0, 15),
+    })
+    return category
   }
 }

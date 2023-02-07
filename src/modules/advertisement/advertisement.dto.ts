@@ -9,6 +9,11 @@ export class adDto {
 
   @ApiProperty({ required: true })
   @IsOptional()
-  @IsString({ message: '广告跳转链接' })
-  goUrl: string
+  @IsString({ message: '广告地址' })
+  adHref: string
+
+  @ApiProperty({ required: true })
+  @IsOptional()
+  @IsString({ message: '投放广告地址' })
+  putAdHref: string
 }

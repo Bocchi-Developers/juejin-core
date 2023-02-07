@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common'
@@ -41,15 +41,12 @@ export class AdvertisementController {
   @ApiOperation({ summary: '广告增加' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
-  async addUrl(
-    @UploadedFile() file: Express.Multer.File,
-    @Body() goUrl: adDto,
-  ) {
+  async addUrl(@UploadedFile() file: Express.Multer.File, @Body() href: adDto) {
     const result = await this.uploadService.upload(file)
-    await this.advertisementService.addUrl(result, goUrl)
+    await this.advertisementService.addUrl(result, href)
   }
 
-  @Patch()
+  @Put()
   @Admin()
   @Auth()
   @ApiOperation({ summary: '广告修改' })
@@ -57,14 +54,14 @@ export class AdvertisementController {
   @UseInterceptors(FileInterceptor('file'))
   async updateUrl(
     @UploadedFile() file: Express.Multer.File,
-    @Body() goUrl: adDto,
+    @Body() ad: adDto,
   ) {
     let result = null
     if (file) {
       result = await this.uploadService.upload(file)
     }
 
-    await this.advertisementService.updateUrl(result, goUrl)
+    await this.advertisementService.updateUrl(result, ad)
   }
 
   @Delete('/:id')

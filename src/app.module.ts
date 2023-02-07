@@ -10,6 +10,7 @@ import { AggregateModule } from './modules/aggregate/aggregate.module'
 import { CategoryModule } from './modules/category/category.module'
 import { OptionModule } from './modules/option/option.module'
 import { PostModule } from './modules/post/post.module'
+import { TabModule } from './modules/tab/tab.module'
 import { UploadModule } from './modules/upload/upload.module'
 import { UserModule } from './modules/user/user.module'
 import { DatabaseModule } from './processors/databse/database.module'
@@ -28,6 +29,7 @@ import { LoggerModule } from './processors/logger/logger.module'
     AdvertisementModule,
     OptionModule,
     AggregateModule,
+    TabModule,
   ],
   controllers: [AppController],
   providers: [

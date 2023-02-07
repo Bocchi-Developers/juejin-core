@@ -68,7 +68,8 @@ export class PostService {
   }
 
   async postPaginate(post: PostList) {
-    const { pageCurrent, pageSize, categoryId, tag, sort } = post
+    const { pageCurrent, pageSize, category, tag, sort } = post
+    const _category = await this.categoryService.find(category)
     const postList = await this.postModel.populate(
       await this.postModel.aggregate([
         {
@@ -89,7 +90,7 @@ export class PostService {
         },
         {
           $match: {
-            category: categoryId ? { $eq: categoryId } : { $exists: true },
+            category: category ? { $eq: _category.id } : { $exists: true },
             tags: tag ? { $eq: tag } : { $exists: true },
             ad: false,
           },
