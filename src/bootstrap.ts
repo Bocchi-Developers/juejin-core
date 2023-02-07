@@ -5,7 +5,6 @@ import { NestFactory } from '@nestjs/core'
 
 import { API_VERSION, CROSS_DOMAIN, PORT } from './app.config'
 import { AppModule } from './app.module'
-import { SpiderGuard } from './common/guard/spider.guard'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { isDev, isMainProcess } from './global/env.global'
 import { MyLogger } from './processors/logger/logger.service'
@@ -44,7 +43,6 @@ export async function bootstrap() {
       stopAtFirstError: true,
     }),
   )
-  app.useGlobalGuards(new SpiderGuard())
   if (isDev) {
     const { DocumentBuilder, SwaggerModule } = await import('@nestjs/swagger')
     const options = new DocumentBuilder()
