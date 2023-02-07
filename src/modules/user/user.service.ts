@@ -65,4 +65,21 @@ export class UserService {
   getAdminInfo() {
     return this.userModel.findOne({ admin: true })
   }
+
+  authorRank(size: number) {
+    return this.userModel.aggregate([
+      {
+        $sample: {
+          size,
+        },
+      },
+      {
+        $project: {
+          username: 1,
+          avatar: 1,
+          introduce: 1,
+        },
+      },
+    ])
+  }
 }

@@ -41,4 +41,7 @@ export class CategoryService {
       categoryId: id,
     })
   }
+  findAllCategory() {
+    return this.categoryModel.find()
+  }
 }

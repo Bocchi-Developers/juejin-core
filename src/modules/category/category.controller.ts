@@ -30,6 +30,11 @@ export class CategoryController {
     return this.categoryService.create(category)
   }
 
+  @Get()
+  async findAllCategory() {
+    return this.categoryService.findAllCategory()
+  }
+
   @Get('/:slug')
   async categoryBySlug(@Param('slug') slug: string) {
     return await this.categoryService.find(slug)

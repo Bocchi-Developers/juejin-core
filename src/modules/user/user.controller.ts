@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpCode, Patch, Post } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
 
 import { Auth } from '~/common/decorator/auth.decorator'
@@ -42,6 +50,12 @@ export class UserController {
   @ApiOperation({ summary: '获取管理员信息' })
   async adminInfo() {
     return this.userService.getAdminInfo()
+  }
+
+  @Get()
+  @ApiOperation({ summary: '随机获得指定数量的用户信息' })
+  async authorRank(@Param('size') size: number) {
+    return this.userService.authorRank(size)
   }
 
   @Patch()
