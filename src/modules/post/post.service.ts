@@ -99,7 +99,6 @@ export class PostService {
           $match: {
             category: category ? { $eq: _category.id } : { $exists: true },
             tags: tag ? { $eq: tag } : { $exists: true },
-            ad: false,
           },
         },
         {
@@ -117,13 +116,6 @@ export class PostService {
       ]),
       { path: 'category user' },
     )
-    if (pageCurrent == 1) {
-      const top = await this.postModel
-        .find({ ad: true })
-        .populate('category')
-        .populate('user')
-      postList.unshift(...top)
-    }
 
     const totalCount = await this.postModel.count()
     const totalPages = Math.ceil(totalCount / pageSize)
