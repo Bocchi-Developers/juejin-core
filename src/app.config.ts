@@ -6,7 +6,7 @@ export const API_VERSION = 1
 export const CROSS_DOMAIN = {
   allowedOrigins: argv.allowed_origins
     ? argv.allowed_origins?.split?.(',')
-    : ['juejin.suemor.com', 'localhost', '127.0.0.1', '.*dev'],
+    : ['localhost:*', '127.0.0.1'],
 }
 
 export const MONGO_DB = {

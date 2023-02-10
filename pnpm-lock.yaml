@@ -60,6 +60,7 @@ specifiers:
   ts-node: ^10.0.0
   tsconfig-paths: 4.1.2
   typescript: ^4.7.4
+  wildcard-match: ^5.1.2
   zx-cjs: 7.0.7-0
 
 dependencies:
@@ -92,6 +93,7 @@ dependencies:
   qiniu: 7.8.0
   reflect-metadata: 0.1.13
   rxjs: 7.8.0
+  wildcard-match: 5.1.2
   zx-cjs: 7.0.7-0
 
 devDependencies:
@@ -8592,6 +8594,10 @@ packages:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
       string-width: 4.2.3
+    dev: false
+
+  /wildcard-match/5.1.2:
+    resolution: {integrity: sha512-qNXwI591Z88c8bWxp+yjV60Ch4F8Riawe3iGxbzquhy8Xs9m+0+SLFBGb/0yCTIDElawtaImC37fYZ+dr32KqQ==}
     dev: false
 
   /win-release/1.1.1:
