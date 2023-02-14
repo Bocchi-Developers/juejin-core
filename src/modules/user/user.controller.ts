@@ -70,7 +70,7 @@ export class UserController {
   @Get('check_logged')
   @ApiOperation({ summary: '判断当前 Token 是否有效 ' })
   @Auth()
-  checkLogged() {
-    return
+  checkLogged(@CurrentUser() user: UserModel) {
+    return user
   }
 }
