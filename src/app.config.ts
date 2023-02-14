@@ -1,6 +1,6 @@
 import { argv } from 'zx-cjs'
 
-export const PORT = 7498
+export const PORT = argv.port || process.env.PORT || 7498
 export const API_VERSION = 1
 
 export const CROSS_DOMAIN = {
