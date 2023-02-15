@@ -4,9 +4,10 @@ export const PORT = argv.port || process.env.PORT || 7498
 export const API_VERSION = 1
 
 export const CROSS_DOMAIN = {
-  allowedOrigins: argv.allowed_origins
-    ? argv.allowed_origins?.split?.(',')
-    : ['localhost:*', '127.0.0.1'],
+  allowedOrigins:
+    argv.allowed_origins || process.env.ALLOWED_ORIGINS
+      ? argv.allowed_origins?.split?.(',')
+      : ['localhost:*', '127.0.0.1'],
 }
 
 export const MONGO_DB = {
