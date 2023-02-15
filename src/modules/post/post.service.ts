@@ -93,6 +93,7 @@ export class PostService {
             user: 1,
             cover: 1,
             read: 1,
+            updatedAt: 1,
           },
         },
         {

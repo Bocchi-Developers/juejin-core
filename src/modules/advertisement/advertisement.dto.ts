@@ -1,19 +1,20 @@
-import { IsOptional, IsString } from 'class-validator'
+import { IsOptional, IsUrl } from 'class-validator'
 
 import { ApiProperty } from '@nestjs/swagger'
 
 export class adDto {
-  @ApiProperty({ type: 'string', format: 'binary' })
+  @ApiProperty({ required: true })
   @IsOptional()
-  file: Express.Multer.File
+  @IsUrl()
+  phoUrl: string
 
   @ApiProperty({ required: true })
   @IsOptional()
-  @IsString({ message: '广告地址' })
+  @IsUrl()
   adHref: string
 
   @ApiProperty({ required: true })
   @IsOptional()
-  @IsString({ message: '投放广告地址' })
+  @IsUrl()
   putAdHref: string
 }

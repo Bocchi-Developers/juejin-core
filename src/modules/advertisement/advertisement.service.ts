@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
-import { UploadService } from '../upload/upload.service'
 import { adDto } from './advertisement.dto'
 import { AdModel } from './advertisement.model'
 
@@ -16,40 +15,25 @@ export class AdvertisementService {
   constructor(
     @InjectModel(AdModel.name)
     private readonly AdModel: Model<AdModel>,
-    private readonly uploadService: UploadService,
   ) {}
 
   async findUrl() {
     return await this.AdModel.findOne()
   }
 
-  async addUrl(url: string, href: adDto) {
+  async addUrl(href: adDto) {
     const result = await this.AdModel.count()
     if (result >= 1) {
       throw new BadRequestException('广告已经存在')
     }
     return await this.AdModel.create({
-      phoUrl: url,
       ...href,
     })
   }
 
-  async updateUrl(url: string, href: adDto) {
+  async updateUrl(href: adDto) {
     const result = await this.AdModel.findOne()
-    let originUrl
-    if (!url) {
-      originUrl = result.phoUrl
-    } else {
-      const name = result.phoUrl.split('/')[result.phoUrl.split('/').length - 1]
-      this.uploadService.remove(name)
-    }
-    await this.AdModel.updateOne(
-      { _id: result.id },
-      {
-        phoUrl: url || originUrl,
-        ...href,
-      },
-    )
+    await this.AdModel.updateOne({ _id: result.id }, href)
   }
 
   async remove(id: string) {
