@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Get, Patch, Post, Put } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
 
 import { Admin } from '~/common/decorator/admin.decorator'
@@ -15,14 +15,14 @@ export class OptionController {
 
   @Post()
   @ApiOperation({ summary: '创建网站 seo 信息' })
-  async create(@Body() seo: SeoDto) {
+  async createOption(@Body() seo: SeoDto) {
     await this.optionService.create(seo)
     return
   }
 
   @Get()
   @ApiOperation({ summary: '获取网站 seo 信息' })
-  async adminInfo() {
+  async optionInfo() {
     return this.optionService.seoInfo()
   }
 
@@ -30,7 +30,16 @@ export class OptionController {
   @ApiOperation({ summary: '修改网站 seo 信息' })
   @Auth()
   @Admin()
-  async patchUserData(@Body() seo: SeoDto) {
+  async patchOptionData(@Body() seo: SeoDto) {
+    await this.optionService.patchSeo(seo)
+    return
+  }
+
+  @Put()
+  @ApiOperation({ summary: '修改网站 seo 信息' })
+  @Auth()
+  @Admin()
+  async putOptionData(@Body() seo: SeoDto) {
     await this.optionService.patchSeo(seo)
     return
   }

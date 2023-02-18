@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
 
@@ -67,10 +68,25 @@ export class UserController {
     return await this.userService.patchUserData(body, user)
   }
 
+  @Put()
+  @Auth()
+  async putUserData(
+    @Body() body: UserDetailDto,
+    @CurrentUser() user: UserModel,
+  ) {
+    return await this.userService.patchUserData(body, user)
+  }
+
   @Get('check_logged')
   @ApiOperation({ summary: '判断当前 Token 是否有效 ' })
   @Auth()
   checkLogged(@CurrentUser() user: UserModel) {
-    return user
+    return this.userService.model.findOne({ username: user.username })
+  }
+
+  @Get('/:username')
+  @ApiOperation({ summary: '获取指定用户名的信息' })
+  getUserInfo(@Param('username') username: string) {
+    return this.userService.model.findOne({ username })
   }
 }

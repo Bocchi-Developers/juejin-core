@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common'
 
 import { Admin } from '~/common/decorator/admin.decorator'
@@ -47,6 +48,19 @@ export class TabController {
   @Admin()
   @Auth()
   async updateCategory(@Param() params: MongoIdDto, @Body() tab: TabPatchDto) {
+    const { id } = params
+    const _tab = await this.tabService.model.findById(id)
+    if (!_tab) {
+      throw new NoContentCanBeModifiedException()
+    }
+    await this.tabService.model.updateOne({ _id: id }, tab)
+    return
+  }
+
+  @Put('/:id')
+  @Admin()
+  @Auth()
+  async putCategory(@Param() params: MongoIdDto, @Body() tab: TabPatchDto) {
     const { id } = params
     const _tab = await this.tabService.model.findById(id)
     if (!_tab) {

@@ -54,12 +54,17 @@ export class UserService {
     return !!(await this.userModel.count())
   }
 
-  async patchUserData(data: UserDetailDto, user: UserModel) {
-    const _user = await this.userModel.findById(user._id)
-    if (data?.admin != undefined && data?.admin != _user.admin) {
-      throw new ForbiddenException('无权修改管理员权限')
+  async patchUserData(data: UserDetailDto, CurrentUser: UserModel) {
+    const _user = await this.userModel.findById(CurrentUser._id)
+    if (!_user?.admin && data._id != _user._id) {
+      throw new ForbiddenException('无修改权限')
     }
-    return this.userModel.updateOne({ _id: user._id }, data)
+    if (data?.password) {
+      data.password = hashSync(data.password, 6)
+      data['authCode'] = nanoid(10)
+      return this.userModel.updateOne({ _id: _user._id }, data)
+    }
+    return this.userModel.updateOne({ _id: _user._id }, data)
   }
 
   getAdminInfo() {
@@ -81,5 +86,9 @@ export class UserService {
         },
       },
     ])
+  }
+
+  get model() {
+    return this.userModel
   }
 }

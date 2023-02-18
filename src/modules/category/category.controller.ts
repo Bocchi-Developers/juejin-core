@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common'
 
 import { Admin } from '~/common/decorator/admin.decorator'
@@ -49,10 +50,10 @@ export class CategoryController {
       throw new NoContentCanBeModifiedException()
     }
 
-    const postsInCategory = await this.categoryService.findPostsInCategory(
-      category._id,
+    const postsCategoryCount = await this.categoryService.findPostsInCategory(
+      category.id,
     )
-    if (postsInCategory.length > 0) {
+    if (postsCategoryCount) {
       throw new BadRequestException('该分类中有其他文章，无法被删除')
     }
     await this.categoryService.model.deleteOne({
@@ -65,6 +66,18 @@ export class CategoryController {
   @Admin()
   @Auth()
   async updateCategory(
+    @Param() params: MongoIdDto,
+    @Body() category: CategoryDto,
+  ) {
+    const { id } = params
+    await this.categoryService.model.updateOne({ _id: id }, category)
+    return
+  }
+
+  @Put('/:id')
+  @Admin()
+  @Auth()
+  async putCategory(
     @Param() params: MongoIdDto,
     @Body() category: CategoryDto,
   ) {

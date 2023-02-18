@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
@@ -57,6 +58,20 @@ export class PostController {
   @Patch('/:id')
   @Auth()
   async patch(
+    @Param() params: MongoIdDto,
+    @Body() body: PartialPostModel,
+    @CurrentUser() user: UserModel,
+  ) {
+    const _post = await this.postService.model.findById(params.id)
+    if (_post?.user !== user._id && !user.admin) {
+      throw new ForbiddenException('没有权限修改')
+    }
+    return await this.postService.updateById(params.id, body)
+  }
+
+  @Put('/:id')
+  @Auth()
+  async put(
     @Param() params: MongoIdDto,
     @Body() body: PartialPostModel,
     @CurrentUser() user: UserModel,

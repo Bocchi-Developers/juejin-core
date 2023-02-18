@@ -38,9 +38,7 @@ export class CategoryService {
   }
 
   async findPostsInCategory(id: string) {
-    return await this.postService.model.find({
-      categoryId: id,
-    })
+    return await this.postService.model.count({ category: id })
   }
   async findAllCategory() {
     const category = await this.categoryModel.find().lean()
