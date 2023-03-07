@@ -41,7 +41,7 @@ specifiers:
   json5: ^2.2.3
   lint-staged: ^13.1.0
   lodash: ^4.17.21
-  mongodb: ^4.13.0
+  mongodb: ^5.0.0
   mongoose: ^6.8.3
   multer: 1.4.5-lts.1
   nanoid: 3.3.4
@@ -84,7 +84,7 @@ dependencies:
   dotenv: 16.0.3
   json5: 2.2.3
   lodash: 4.17.21
-  mongodb: 4.13.0
+  mongodb: 5.1.0
   mongoose: 6.8.3
   multer: 1.4.5-lts.1
   nanoid: 3.3.4
@@ -3277,6 +3277,11 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       buffer: 5.7.1
+    dev: false
+
+  /bson/5.0.1:
+    resolution: {integrity: sha512-y09gBGusgHtinMon/GVbv1J6FrXhnr/+6hqLlSmEFzkz6PodqF6TxjyvfvY3AfO+oG1mgUtbC86xSbOlwvM62Q==}
+    engines: {node: '>=14.20.1'}
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
@@ -6567,18 +6572,26 @@ packages:
       - aws-crt
     dev: false
 
-  /mongodb/4.13.0:
-    resolution: {integrity: sha512-+taZ/bV8d1pYuHL4U+gSwkhmDrwkWbH1l4aah4YpmpscMwgFBkufIKxgP/G7m87/NUuQzc2Z75ZTI7ZOyqZLbw==}
-    engines: {node: '>=12.9.0'}
+  /mongodb/5.1.0:
+    resolution: {integrity: sha512-qgKb7y+EI90y4weY3z5+lIgm8wmexbonz0GalHkSElQXVKtRuwqXuhXKccyvIjXCJVy9qPV82zsinY0W1FBnJw==}
+    engines: {node: '>=14.20.1'}
+    peerDependencies:
+      '@aws-sdk/credential-providers': ^3.201.0
+      mongodb-client-encryption: ^2.3.0
+      snappy: ^7.2.2
+    peerDependenciesMeta:
+      '@aws-sdk/credential-providers':
+        optional: true
+      mongodb-client-encryption:
+        optional: true
+      snappy:
+        optional: true
     dependencies:
-      bson: 4.7.2
+      bson: 5.0.1
       mongodb-connection-string-url: 2.6.0
       socks: 2.7.1
     optionalDependencies:
-      '@aws-sdk/credential-providers': 3.245.0
       saslprep: 1.0.3
-    transitivePeerDependencies:
-      - aws-crt
     dev: false
 
   /mongoose/6.8.3:
