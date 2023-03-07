@@ -2,7 +2,7 @@
   "name": "@bocchi/juejin-core",
   "author": "Bocchi-Developers <https://suemor.com>",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "directory": "@bocchi/juejin-core",
     "url": "https://github.com/Bocchi-Developers/juejin-core"
