@@ -17,6 +17,6 @@ export class UploadController {
   @Auth() // 权限校验
   @UseInterceptors(FileInterceptor('file')) // 处理文件中间件 file 与上传的字段对应
   upload(@UploadedFile() file: Express.Multer.File) {
-    return this.UploadService.upload(file)
+    return this.UploadService.uploadPhoto(file)
   }
 }
