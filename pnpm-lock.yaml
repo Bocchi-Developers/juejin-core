@@ -23,7 +23,7 @@ specifiers:
   '@types/node': 18.14.1
   '@types/passport-jwt': ^3.0.8
   '@types/supertest': ^2.0.11
-  '@vercel/ncc': ^0.36.0
+  '@vercel/ncc': ^0.38.0
   axios: ^1.2.2
   axios-retry: ^3.3.1
   bcrypt: ^5.1.0
@@ -113,7 +113,7 @@ devDependencies:
   '@types/node': 18.14.1
   '@types/passport-jwt': 3.0.8
   '@types/supertest': 2.0.12
-  '@vercel/ncc': 0.36.0
+  '@vercel/ncc': 0.38.0
   commitlint: 17.4.2
   cross-env: 7.0.3
   cz-git: 1.4.1
@@ -2690,8 +2690,8 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@vercel/ncc/0.36.0:
-    resolution: {integrity: sha512-/ZTUJ/ZkRt694k7KJNimgmHjtQcRuVwsST2Z6XfYveQIuBbHR+EqkTc1jfgPkQmMyk/vtpxo3nVxe8CNuau86A==}
+  /@vercel/ncc/0.38.0:
+    resolution: {integrity: sha512-B4YKZMm/EqMptKSFyAq4q2SlgJe+VCmEH6Y8gf/E1pTlWbsUJpuH1ymik2Ex3aYO5mCWwV1kaSYHSQOT8+4vHA==}
     hasBin: true
     dev: true
 
